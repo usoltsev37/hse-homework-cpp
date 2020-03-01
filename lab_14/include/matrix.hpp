@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
+#include <iostream>
 
 class Matrix {
 public:
@@ -10,15 +11,17 @@ public:
 
     Matrix(size_t row, size_t col);
 
-    void print() const noexcept;
+    void print(std::ostream &os) const noexcept;
 
     int get_elem(int x, int y) const noexcept(false);
 
-    void add(Matrix &other) noexcept(false);
+    Matrix &operator+=(const Matrix &other) noexcept(false);
 
-    void mul(Matrix &other) noexcept(false);
+    Matrix &operator*=(const Matrix &other) noexcept(false);
 
-    void load(const std::string &file) noexcept(false);
+    std::ifstream &operator>>(std::ifstream &is) noexcept(false);
+
+    std::ostream &operator<<(std::ostream &os) const noexcept;
 
 private:
     std::vector<std::vector<int>> matrix;
@@ -29,10 +32,10 @@ private:
 class MatrixException : public std::exception {
 public:
 
-    explicit MatrixException(const char *message);
+    explicit MatrixException(std::string message_);
 
     const char *what() const noexcept override;
 
 private:
-    const char *message;
+    std::string message;
 };

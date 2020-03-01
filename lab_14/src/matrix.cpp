@@ -1,21 +1,17 @@
 #include "matrix.hpp"
 #include <iostream>
 #include <fstream>
-#include <cassert>
+#include <utility>
 
-Matrix::Matrix(size_t row, size_t col) : row(row), col(col) {
-    matrix.resize(row);
-    for (size_t i = 0; i < row; i++) {
-        matrix[i].resize(col);
-    }
-}
+Matrix::Matrix(size_t row, size_t col) : row(row), col(col),
+                                         matrix(std::vector<std::vector<int>>(row, std::vector<int>(col, 0))) {}
 
-void Matrix::print() const noexcept {
+void Matrix::print(std::ostream &os) const noexcept {
     for (auto &matrix_row : matrix) {
         for (const int &element : matrix_row) {
-            std::cout << element << ' ';
+            os << element << ' ';
         }
-        std::cout << '\n';
+        os << '\n';
     }
 }
 
@@ -25,20 +21,21 @@ int Matrix::get_elem(int x, int y) const noexcept(false) {
     return matrix[x][y];
 }
 
-void Matrix::add(Matrix &other) noexcept(false) {
+Matrix &Matrix::operator+=(const Matrix &other) noexcept(false) {
     if (row != other.row || col != other.col)
         throw MatrixException("ADD: dimensions do not match.");
     for (size_t i = 0; i < row; i++) {
         for (size_t j = 0; j < col; j++) {
-            matrix[i][j] += other.get_elem(i, j);
+            matrix[i][j] += other.matrix[i][j];
         }
     }
+    return *this;
 }
 
-void Matrix::mul(Matrix &other) noexcept(false) {
+Matrix &Matrix::operator*=(const Matrix &other) noexcept(false) {
     if (col != other.row)
         throw MatrixException("MUL: #arg1.columns != #arg2.rows.");
-    Matrix buf(row, other.col);
+    Matrix product(*this);
     for (size_t i = 0; i < row; i++) {
         for (size_t j = 0; j < other.col; j++) {
             int sum = 0;
@@ -47,48 +44,50 @@ void Matrix::mul(Matrix &other) noexcept(false) {
                 sum += matrix[i][count] * other.matrix[count][j];
             }
 
-            buf.matrix[i][j] = sum;
+            product.matrix[i][j] = sum;
         }
     }
-    matrix = buf.matrix;
-    col = other.col;
+    *this = product;
+    return *this;
 }
 
-void Matrix::load(const std::string &file) noexcept(false) {
-    std::ifstream is(file);
+std::ifstream &Matrix::operator>>(std::ifstream &is) noexcept(false) {
     if (!is.is_open()) {
         throw MatrixException("LOAD: unable to open file.");
     }
+    is.exceptions(std::ifstream::failbit);
+    try {
+        int buffer_int;
 
-    int buffer_int;
-
-    for (int i = 0; i < 2; i++) {
         is >> buffer_int;
-        if (!is.fail() && i == 0)
-            row = buffer_int;
-        else if(!is.fail() && i == 1)
-            col = buffer_int;
-        else
-            throw MatrixException("LOAD: invalid file format.");
-    }
+        row = buffer_int;
 
-    Matrix buffer(row, col);
+        is >> buffer_int;
+        col = buffer_int;
 
-    for (size_t i = 0; i < row; i++) {
-        for (size_t j = 0; j < col; j++) {
-            is >> buffer_int;
-            if (!is.fail()) {
+        Matrix buffer(row, col);
+
+        for (size_t i = 0; i < row; i++) {
+            for (size_t j = 0; j < col; j++) {
+                is >> buffer_int;
                 buffer.matrix[i][j] = buffer_int;
-            } else
-                throw MatrixException("LOAD: invalid file format.");
+            }
         }
+        matrix = buffer.matrix;
+    } catch (std::ifstream::failure &e) {
+        throw MatrixException("LOAD: invalid file format.");
     }
-    matrix = buffer.matrix;
-    is.close();
+    return is;
+
 }
 
-MatrixException::MatrixException(const char *message) : message(message) {}
+std::ostream &Matrix::operator<<(std::ostream &os) const noexcept {
+    print(os);
+    return os;
+}
+
+MatrixException::MatrixException(std::string message_) : message(std::move(message_)) {}
 
 const char *MatrixException::what() const noexcept {
-    return message;
+    return message.c_str();
 }
