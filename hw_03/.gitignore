@@ -1,0 +1,15 @@
+.idea/
+CMakeCache.txt
+CMakeFiles/
+cmake-build-debug/
+cmake_install.cmake
+dajsldkf
+hw_03
+hw_03.cbp
+in_monster.txt
+out0.txt
+out_monster.bin
+out_monster.txt
+start.sh
+test.txt
+
