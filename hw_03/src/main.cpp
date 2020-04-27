@@ -8,6 +8,16 @@
 int main(int argc, char *argv[]) {
     try {
 
+        // DEBUG
+        /*
+        HuffmanArchiver archiver;
+        std::ifstream i_stream("test.bin", std::ifstream::binary);
+        std::ofstream o_stream("ans_test.txt", std::ofstream::binary);
+        archiver.extract_archive(i_stream, o_stream);
+
+        return 0; */
+
+
         CLI parcer(argc, argv);
 
         HuffmanArchiver archiver;

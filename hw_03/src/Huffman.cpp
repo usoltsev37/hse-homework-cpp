@@ -17,7 +17,7 @@ HuffmanTree::HuffmanTree(const std::map<uint8_t, int> &frequency) {
 
     for(auto &symbol : frequency) {
         auto *node = new HuffmanNode(symbol.first, nullptr, nullptr, nullptr);
-        backlinks_[symbol.first] = node;
+        backlinks_symbol_node_[symbol.first] = node;
         buffer_tree.push({symbol.second, node});
     }
 
@@ -71,11 +71,11 @@ HuffmanTree::HuffmanTree::~HuffmanTree() {
 }
 
 HuffmanTree::HuffmanNode *HuffmanTree::get_NodeBySymbol(const uint8_t &symbol) noexcept {
-    return backlinks_[symbol];
+    return backlinks_symbol_node_[symbol];
 }
 
 void HuffmanTree::encrypt_tree() {
-    for(auto &i : backlinks_) {
+    for(auto &i : backlinks_symbol_node_) {
         uint8_t symbol = i.first;
         HuffmanNode *node = i.second;
         encrypt_symbol(symbol, node, node);
@@ -89,6 +89,19 @@ void HuffmanTree::encrypt_symbol(uint8_t &symbol, HuffmanNode *node, HuffmanNode
         start_node->code += "0";
     else if(node->parent_->right_ == node)
         start_node->code += "1";
+}
+
+bool HuffmanTree::have_code_sumbol(const std::string &code) const noexcept {
+    return backlinks_code_symbol_.count(code);
+}
+
+uint8_t HuffmanTree::get_code_sumbol(std::string &code) noexcept {
+    return backlinks_code_symbol_[code];
+}
+
+void HuffmanTree::set_backlinks_code_symbol_() noexcept {
+    for(auto i : backlinks_symbol_node_)
+        backlinks_code_symbol_[i.second->get_code()] = i.first;
 }
 
 
