@@ -10,19 +10,19 @@
 #include <iostream>
 
 CLI::CLI(int argc, char *argv[]) : argc_(argc) {
-    if(argc_ != arguments_count_)
+    if (argc_ != arguments_count_)
         throw ParceException("============Invalid count of arguments============\n");
 
     all_argv_.assign(argv + 1, argv + argc);
 
-    for(auto key = all_argv_.begin(); key != all_argv_.end(); key++) {
-        if(*key == "-c")
+    for (auto key = all_argv_.begin(); key != all_argv_.end(); key++) {
+        if (*key == "-c")
             mode_ = huffman_mode::COMPRESS;
-        else if(*key == "-u")
+        else if (*key == "-u")
             mode_ = huffman_mode::EXTRACT;
-        else if(*key == "-f")
+        else if (*key == "-f")
             input_file_ = *(++key);
-        else if(*key == "-o")
+        else if (*key == "-o")
             output_file_ = *(++key);
         else
             throw ParceException("==== Unknown format, example is \"./hw_03 -c -f myfile.txt -o result.bin\" ====\n");

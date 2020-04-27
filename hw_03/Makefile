@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named test_hw_03
+
+# Build rule for target.
+test_hw_03: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_hw_03
+.PHONY : test_hw_03
+
+# fast build rule for target.
+test_hw_03/fast:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/build
+.PHONY : test_hw_03/fast
+
+#=============================================================================
 # Target rules for targets named hw_03
 
 # Build rule for target.
@@ -129,6 +142,7 @@ src/CLI.o: src/CLI.cpp.o
 
 # target to build an object file
 src/CLI.cpp.o:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/src/CLI.cpp.o
 	$(MAKE) -f CMakeFiles/hw_03.dir/build.make CMakeFiles/hw_03.dir/src/CLI.cpp.o
 .PHONY : src/CLI.cpp.o
 
@@ -138,6 +152,7 @@ src/CLI.i: src/CLI.cpp.i
 
 # target to preprocess a source file
 src/CLI.cpp.i:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/src/CLI.cpp.i
 	$(MAKE) -f CMakeFiles/hw_03.dir/build.make CMakeFiles/hw_03.dir/src/CLI.cpp.i
 .PHONY : src/CLI.cpp.i
 
@@ -147,6 +162,7 @@ src/CLI.s: src/CLI.cpp.s
 
 # target to generate assembly for a file
 src/CLI.cpp.s:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/src/CLI.cpp.s
 	$(MAKE) -f CMakeFiles/hw_03.dir/build.make CMakeFiles/hw_03.dir/src/CLI.cpp.s
 .PHONY : src/CLI.cpp.s
 
@@ -156,6 +172,7 @@ src/Huffman.o: src/Huffman.cpp.o
 
 # target to build an object file
 src/Huffman.cpp.o:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/src/Huffman.cpp.o
 	$(MAKE) -f CMakeFiles/hw_03.dir/build.make CMakeFiles/hw_03.dir/src/Huffman.cpp.o
 .PHONY : src/Huffman.cpp.o
 
@@ -165,6 +182,7 @@ src/Huffman.i: src/Huffman.cpp.i
 
 # target to preprocess a source file
 src/Huffman.cpp.i:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/src/Huffman.cpp.i
 	$(MAKE) -f CMakeFiles/hw_03.dir/build.make CMakeFiles/hw_03.dir/src/Huffman.cpp.i
 .PHONY : src/Huffman.cpp.i
 
@@ -174,6 +192,7 @@ src/Huffman.s: src/Huffman.cpp.s
 
 # target to generate assembly for a file
 src/Huffman.cpp.s:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/src/Huffman.cpp.s
 	$(MAKE) -f CMakeFiles/hw_03.dir/build.make CMakeFiles/hw_03.dir/src/Huffman.cpp.s
 .PHONY : src/Huffman.cpp.s
 
@@ -183,6 +202,7 @@ src/HuffmanArchiver.o: src/HuffmanArchiver.cpp.o
 
 # target to build an object file
 src/HuffmanArchiver.cpp.o:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/src/HuffmanArchiver.cpp.o
 	$(MAKE) -f CMakeFiles/hw_03.dir/build.make CMakeFiles/hw_03.dir/src/HuffmanArchiver.cpp.o
 .PHONY : src/HuffmanArchiver.cpp.o
 
@@ -192,6 +212,7 @@ src/HuffmanArchiver.i: src/HuffmanArchiver.cpp.i
 
 # target to preprocess a source file
 src/HuffmanArchiver.cpp.i:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/src/HuffmanArchiver.cpp.i
 	$(MAKE) -f CMakeFiles/hw_03.dir/build.make CMakeFiles/hw_03.dir/src/HuffmanArchiver.cpp.i
 .PHONY : src/HuffmanArchiver.cpp.i
 
@@ -201,6 +222,7 @@ src/HuffmanArchiver.s: src/HuffmanArchiver.cpp.s
 
 # target to generate assembly for a file
 src/HuffmanArchiver.cpp.s:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/src/HuffmanArchiver.cpp.s
 	$(MAKE) -f CMakeFiles/hw_03.dir/build.make CMakeFiles/hw_03.dir/src/HuffmanArchiver.cpp.s
 .PHONY : src/HuffmanArchiver.cpp.s
 
@@ -237,7 +259,7 @@ test/TestMain.o: test/TestMain.cpp.o
 
 # target to build an object file
 test/TestMain.cpp.o:
-	$(MAKE) -f CMakeFiles/hw_03.dir/build.make CMakeFiles/hw_03.dir/test/TestMain.cpp.o
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/test/TestMain.cpp.o
 .PHONY : test/TestMain.cpp.o
 
 test/TestMain.i: test/TestMain.cpp.i
@@ -246,7 +268,7 @@ test/TestMain.i: test/TestMain.cpp.i
 
 # target to preprocess a source file
 test/TestMain.cpp.i:
-	$(MAKE) -f CMakeFiles/hw_03.dir/build.make CMakeFiles/hw_03.dir/test/TestMain.cpp.i
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/test/TestMain.cpp.i
 .PHONY : test/TestMain.cpp.i
 
 test/TestMain.s: test/TestMain.cpp.s
@@ -255,8 +277,89 @@ test/TestMain.s: test/TestMain.cpp.s
 
 # target to generate assembly for a file
 test/TestMain.cpp.s:
-	$(MAKE) -f CMakeFiles/hw_03.dir/build.make CMakeFiles/hw_03.dir/test/TestMain.cpp.s
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/test/TestMain.cpp.s
 .PHONY : test/TestMain.cpp.s
+
+test/testCLI.o: test/testCLI.cpp.o
+
+.PHONY : test/testCLI.o
+
+# target to build an object file
+test/testCLI.cpp.o:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/test/testCLI.cpp.o
+.PHONY : test/testCLI.cpp.o
+
+test/testCLI.i: test/testCLI.cpp.i
+
+.PHONY : test/testCLI.i
+
+# target to preprocess a source file
+test/testCLI.cpp.i:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/test/testCLI.cpp.i
+.PHONY : test/testCLI.cpp.i
+
+test/testCLI.s: test/testCLI.cpp.s
+
+.PHONY : test/testCLI.s
+
+# target to generate assembly for a file
+test/testCLI.cpp.s:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/test/testCLI.cpp.s
+.PHONY : test/testCLI.cpp.s
+
+test/testHuffman.o: test/testHuffman.cpp.o
+
+.PHONY : test/testHuffman.o
+
+# target to build an object file
+test/testHuffman.cpp.o:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/test/testHuffman.cpp.o
+.PHONY : test/testHuffman.cpp.o
+
+test/testHuffman.i: test/testHuffman.cpp.i
+
+.PHONY : test/testHuffman.i
+
+# target to preprocess a source file
+test/testHuffman.cpp.i:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/test/testHuffman.cpp.i
+.PHONY : test/testHuffman.cpp.i
+
+test/testHuffman.s: test/testHuffman.cpp.s
+
+.PHONY : test/testHuffman.s
+
+# target to generate assembly for a file
+test/testHuffman.cpp.s:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/test/testHuffman.cpp.s
+.PHONY : test/testHuffman.cpp.s
+
+test/testHuffmanArchiver.o: test/testHuffmanArchiver.cpp.o
+
+.PHONY : test/testHuffmanArchiver.o
+
+# target to build an object file
+test/testHuffmanArchiver.cpp.o:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/test/testHuffmanArchiver.cpp.o
+.PHONY : test/testHuffmanArchiver.cpp.o
+
+test/testHuffmanArchiver.i: test/testHuffmanArchiver.cpp.i
+
+.PHONY : test/testHuffmanArchiver.i
+
+# target to preprocess a source file
+test/testHuffmanArchiver.cpp.i:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/test/testHuffmanArchiver.cpp.i
+.PHONY : test/testHuffmanArchiver.cpp.i
+
+test/testHuffmanArchiver.s: test/testHuffmanArchiver.cpp.s
+
+.PHONY : test/testHuffmanArchiver.s
+
+# target to generate assembly for a file
+test/testHuffmanArchiver.cpp.s:
+	$(MAKE) -f CMakeFiles/test_hw_03.dir/build.make CMakeFiles/test_hw_03.dir/test/testHuffmanArchiver.cpp.s
+.PHONY : test/testHuffmanArchiver.cpp.s
 
 # Help Target
 help:
@@ -266,6 +369,7 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... test_hw_03"
 	@echo "... hw_03"
 	@echo "... src/CLI.o"
 	@echo "... src/CLI.i"
@@ -282,6 +386,15 @@ help:
 	@echo "... test/TestMain.o"
 	@echo "... test/TestMain.i"
 	@echo "... test/TestMain.s"
+	@echo "... test/testCLI.o"
+	@echo "... test/testCLI.i"
+	@echo "... test/testCLI.s"
+	@echo "... test/testHuffman.o"
+	@echo "... test/testHuffman.i"
+	@echo "... test/testHuffman.s"
+	@echo "... test/testHuffmanArchiver.o"
+	@echo "... test/testHuffmanArchiver.i"
+	@echo "... test/testHuffmanArchiver.s"
 .PHONY : help
 
 
