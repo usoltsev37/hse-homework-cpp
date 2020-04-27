@@ -31,28 +31,42 @@ void HuffmanArchiver::compress_archive(std::ifstream &i_stream, std::ofstream &o
     for(auto i = std::istreambuf_iterator<char>(i_stream); i != std::istreambuf_iterator<char>(); i++)
         frequency[*i]++;
 
+
+    cout << "==================== frequency ====================\n";
+    for(auto i : frequency)
+        std::cout  << "{\'"<< i.first << "\', " << i.second << '}' << std::endl;
+
+
+
     HuffmanTree tree(frequency);
 
     write_codeTable(o_stream, file_size, frequency);
     write_codeFile(i_stream, o_stream, tree);
 
     print_stat();
+
+
+    tree.printCODE();
+
+
 }
 
 void HuffmanArchiver::print_stat() const noexcept {
-    std::cout << sz_before_ << '\n' << sz_after_ << '\n' << sz_buffer_ << std::endl;
+    std::cout << sz_before_ << '\n'
+              << sz_after_  << '\n'
+              << sz_buffer_ << std::endl;
 }
 
 void HuffmanArchiver::write_codeTable(std::ofstream &o_stream, std::size_t file_size,
                                       std::map<uint8_t, int> &frequency) {
     std::size_t size = frequency.size();
-    sz_buffer_ = sizeof(int);
     o_stream.write(reinterpret_cast<char*>(&size), sizeof(int));
     for(auto &symbol_freq : frequency) {
         o_stream.write(reinterpret_cast<const char*>(&symbol_freq.first), sizeof(uint8_t));
         o_stream.write(reinterpret_cast<char*>(&symbol_freq.second), sizeof(int));
     }
     o_stream.write(reinterpret_cast<char*>(&file_size), sizeof(int));
+    sz_buffer_ = sizeof(int);
     sz_buffer_ += sizeof(int);
     sz_buffer_ += (sizeof(int) + sizeof(uint8_t)) * size;
 }
@@ -60,7 +74,8 @@ void HuffmanArchiver::write_codeTable(std::ofstream &o_stream, std::size_t file_
 void HuffmanArchiver::write_codeFile(std::ifstream &i_stream, std::ofstream &o_stream, HuffmanTree &tree) {
     i_stream.seekg(0, i_stream.beg);
     std::string buffer = "";
-    for(auto symbol = std::istreambuf_iterator<char>(i_stream); symbol != std::istreambuf_iterator<char>(); symbol++) {
+    for(auto symbol = std::istreambuf_iterator<char>(i_stream);
+             symbol != std::istreambuf_iterator<char>(); symbol++) {
         std::string code = buffer + tree.get_NodeBySymbol(*symbol)->get_code();
         std::size_t new_buffer_length = code.length() % CHAR_BIT;
         buffer = code.substr(code.length() - new_buffer_length, code.length());
@@ -77,8 +92,9 @@ void HuffmanArchiver::write_bytes(std::ofstream &o_stream, std::string &code) no
     std::size_t current_bit = 0;
     std::uint8_t byte = 0;
     for(auto bit : code) {
-        current_bit = (current_bit + 1) % CHAR_BIT;
+        current_bit++;
         byte |= (static_cast<std::size_t>(bit) - 48) << (CHAR_BIT - current_bit);
+        current_bit %= CHAR_BIT;
         if(current_bit == 0) {
             o_stream.write(reinterpret_cast<const char*>(&byte), sizeof(uint8_t));
             sz_after_++;
@@ -89,5 +105,66 @@ void HuffmanArchiver::write_bytes(std::ofstream &o_stream, std::string &code) no
 }
 
 void HuffmanArchiver::extract_archive(std::ifstream &i_stream, std::ofstream &o_stream) {
+    std::map<uint8_t, int> frequency;
+
+    read_codeTable(i_stream, frequency);
+
+    std::cout << "==================== frequency ================= \n";
+    for(auto i : frequency)
+        std::cout << i.first << ' ' << i.second << '\n';
+    std::cout << "==================== frequency ================= \n";
+
+    HuffmanTree tree(frequency);
+    std::cout << "TREE - OK\n";
+    read_codeFile(i_stream, o_stream, tree);
+
+}
+
+void HuffmanArchiver::read_codeTable(std::ifstream &i_stream, std::map<uint8_t, int> &frequency) {
+    int table_size;
+
+    i_stream.read(reinterpret_cast<char*>(&table_size), sizeof(int));
+
+    sz_buffer_ = sizeof(int);
+    for(std::size_t i = 0; i < table_size; i++) {
+        uint8_t symbol;
+        i_stream.read(reinterpret_cast<char*>(&symbol), sizeof(uint8_t));
+
+        int frequency_of_symbol;
+        i_stream.read(reinterpret_cast<char*>(&frequency_of_symbol), sizeof(int));
+
+        frequency[symbol] = frequency_of_symbol;
+        sz_buffer_ += sizeof(int) + sizeof(uint8_t);
+    }
+}
+
+void HuffmanArchiver::read_codeFile(std::ifstream &i_stream, std::ofstream &o_stream, HuffmanTree &tree) {
+
+    tree.printCODE();
+
+    int file_size;
+    i_stream.read(reinterpret_cast<char*>(&file_size), sizeof(int));
+
+    std::string buffer = "";
+    while(true) {
+        uint8_t byte;
+        i_stream.read(reinterpret_cast<char*>(&byte), sizeof(uint8_t));
+        if(i_stream.fail()) break;
+
+        for(size_t i = 0; i < 8; i++) {
+            uint8_t bit = byte & (1 << (7 - i));
+            if(bit != 0) buffer += "1";
+            else buffer += "0";
+            if(tree.have_code_sumbol(buffer)) {
+                uint8_t symbol = tree.get_code_sumbol(buffer);
+                o_stream.write(reinterpret_cast<char*>(&symbol), sizeof(uint8_t));
+
+                std::cout << "buffer " << buffer << " symbol: " << symbol << '\n';
+
+                buffer = "";
+            }
+        }
+
+    }
 
 }

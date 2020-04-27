@@ -21,6 +21,7 @@ HuffmanTree::HuffmanTree(const std::map<uint8_t, int> &frequency) {
         buffer_tree.push({symbol.second, node});
     }
 
+
     if(buffer_tree.size() <= 1) {
         if(buffer_tree.empty())
             root_ = new HuffmanNode();
@@ -33,8 +34,9 @@ HuffmanTree::HuffmanTree(const std::map<uint8_t, int> &frequency) {
             buffer_tree.pop();
             auto right = buffer_tree.top();
             buffer_tree.pop();
-            buffer_tree.push({left.first + right.first, static_cast<HuffmanNode*>
-                            (new HuffmanNode('H', nullptr, left.second, right.second))});
+            auto parent = new HuffmanNode('H', nullptr, left.second, right.second);
+            left.second->parent_ = right.second->parent_ = parent;
+            buffer_tree.push({left.first + right.first, parent});
         }
         root_ = buffer_tree.top().second;
     }
@@ -77,7 +79,6 @@ void HuffmanTree::encrypt_tree() {
         uint8_t symbol = i.first;
         HuffmanNode *node = i.second;
         encrypt_symbol(symbol, node, node);
-        reverse(node->code.begin(), node->code.end());
     }
 }
 

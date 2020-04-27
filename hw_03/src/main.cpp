@@ -7,6 +7,7 @@
 
 int main(int argc, char *argv[]) {
     try {
+
         CLI parcer(argc, argv);
 
         HuffmanArchiver archiver;
@@ -16,8 +17,9 @@ int main(int argc, char *argv[]) {
             std::ofstream o_stream(parcer.get_outfile(), std::ofstream::binary);
             archiver.compress_archive(i_stream, o_stream);
         } else if(parcer.get_mode() == EXTRACT) {
-            std::ifstream i_stream;
-            std::ofstream o_stream;
+            std::ifstream i_stream(parcer.get_infile(), std::ifstream::binary);
+            std::ofstream o_stream(parcer.get_outfile(), std::ofstream::binary);
+            archiver.extract_archive(i_stream, o_stream);
         }
 
 

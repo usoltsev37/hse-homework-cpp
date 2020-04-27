@@ -31,12 +31,24 @@ public:
     HuffmanNode* get_NodeBySymbol(const uint8_t &symbol) noexcept;
 
     // DEBUG
-    void printCODE() const noexcept {
+    void printCODE() noexcept {
         std::cout << "==============printCODE()==============\n";
         for(auto i : backlinks_) {
-            std::cout << std::bitset<8>(i.first) << ' ' << i.second->get_code() << std::endl;
+            //std::cout << std::bitset<8>(i.first) << ' ' << i.first << ' ' << i.second->get_code() << std::endl;
+            std::cout  << "{\""<< i.second->get_code() << "\", \'" << i.first << "\'}" << std::endl;
+            std::string code = i.second->get_code();
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+            code_sumbol_[i.second->get_code()] = i.first;
         }
         std::cout << "==============printCODE()==============\n";
+    }
+
+    bool have_code_sumbol(std::string code) const {
+        return code_sumbol_.count(code);
+    }
+
+    uint8_t get_code_sumbol(std::string code) {
+        return code_sumbol_[code];
     }
 
 private:
@@ -47,6 +59,7 @@ private:
 
     HuffmanNode *root_;
     std::map<uint8_t, HuffmanNode*> backlinks_;
+    std::map<std::string, uint8_t> code_sumbol_;
 
 };
 
