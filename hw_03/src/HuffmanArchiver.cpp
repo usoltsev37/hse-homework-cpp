@@ -17,10 +17,7 @@
 HuffmanArchiver::HuffmanArchiver() : sz_before_(0), sz_after_(0), sz_buffer_(0) {}
 
 void HuffmanArchiver::compress_archive(std::ifstream &i_stream, std::ofstream &o_stream) {
-    // DEBUG
-    using std::cout;
-    // DEBUG
-    std::streampos file_size = i_stream.tellg(); // ?????????
+    std::streampos file_size = i_stream.tellg();
     i_stream.seekg( 0, i_stream.end);
     file_size = i_stream.tellg() - file_size;
     i_stream.seekg( 0, i_stream.beg);
@@ -31,24 +28,12 @@ void HuffmanArchiver::compress_archive(std::ifstream &i_stream, std::ofstream &o
     for(auto i = std::istreambuf_iterator<char>(i_stream); i != std::istreambuf_iterator<char>(); i++)
         frequency[*i]++;
 
-
-    cout << "==================== frequency ====================\n";
-    for(auto i : frequency)
-        std::cout  << "{\'"<< i.first << "\', " << i.second << '}' << std::endl;
-
-
-
     HuffmanTree tree(frequency);
 
     write_codeTable(o_stream, file_size, frequency);
     write_codeFile(i_stream, o_stream, tree);
 
     print_stat();
-
-
-    tree.printCODE();
-
-
 }
 
 void HuffmanArchiver::print_stat() const noexcept {
@@ -109,15 +94,11 @@ void HuffmanArchiver::extract_archive(std::ifstream &i_stream, std::ofstream &o_
 
     read_codeTable(i_stream, frequency);
 
-    std::cout << "==================== frequency ================= \n";
-    for(auto i : frequency)
-        std::cout << i.first << ' ' << i.second << '\n';
-    std::cout << "==================== frequency ================= \n";
-
     HuffmanTree tree(frequency);
-    std::cout << "TREE - OK\n";
+
     read_codeFile(i_stream, o_stream, tree);
 
+    print_stat();
 }
 
 void HuffmanArchiver::read_codeTable(std::ifstream &i_stream, std::map<uint8_t, int> &frequency) {
@@ -144,7 +125,8 @@ void HuffmanArchiver::read_codeFile(std::ifstream &i_stream, std::ofstream &o_st
 
     int file_size;
     i_stream.read(reinterpret_cast<char*>(&file_size), sizeof(int));
-
+    sz_after_ = file_size;
+    sz_buffer_ += sizeof(int);
     std::string buffer = "";
     while(true) {
         uint8_t byte;
