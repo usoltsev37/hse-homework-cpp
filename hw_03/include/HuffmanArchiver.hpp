@@ -25,7 +25,9 @@ private:
     void print_stat() const noexcept;
 
     void read_codeTable(std::ifstream &i_stream, std::map<uint8_t, int> &frequency);
-    void read_codeFile(std::ifstream &i_stream, std::ofstream &o_stream, HuffmanTree &tree, std::size_t &file_size);
+    void read_decode_codeFile(std::ifstream &i_stream, std::ofstream &o_stream, HuffmanTree &tree, std::size_t &file_size);
+    void write_decode_byte(uint8_t &byte, std::string &buffer, uint8_t &extra_zeroes,
+                   std::ofstream &o_stream, HuffmanTree &tree);
 
 
     std::size_t sz_before_;

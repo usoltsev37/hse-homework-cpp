@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 
 
@@ -64,6 +62,10 @@ HuffmanTree::HuffmanNode::HuffmanNode(uint8_t value, HuffmanTree::HuffmanNode *p
 
 std::string HuffmanTree::HuffmanNode::get_code() const noexcept {
     return code;
+}
+
+uint8_t HuffmanTree::HuffmanNode::get_value() const noexcept {
+    return value_;
 }
 
 HuffmanTree::HuffmanTree::~HuffmanTree() {

@@ -5,6 +5,7 @@
 #include <map>
 #include <queue>
 #include <algorithm>
+#include <string>
 
 #include <vector>
 
@@ -15,6 +16,7 @@ private:
         HuffmanNode();
         HuffmanNode(uint8_t value, HuffmanNode *parent, HuffmanNode *left, HuffmanNode *right);
         std::string get_code() const noexcept;
+        uint8_t get_value() const noexcept;
     private:
         friend class HuffmanTree;
         HuffmanNode* parent_;
@@ -25,7 +27,7 @@ private:
     };
 public:
 
-    HuffmanTree(const std::map<uint8_t, int> &frequency);
+    explicit HuffmanTree(const std::map<uint8_t, int> &frequency);
     ~HuffmanTree();
 
     HuffmanNode* get_NodeBySymbol(const uint8_t &symbol) noexcept;
@@ -40,6 +42,8 @@ public:
 
 
 private:
+    friend class HuffmanNode;
+
     void del_nodes(HuffmanNode *node);
     void encrypt_tree();
     void encrypt_symbol(uint8_t &symbol, HuffmanNode *node, HuffmanNode *const start_nod);

@@ -7,8 +7,6 @@ include_directories("include/")
 
 add_executable(hw_03
         src/main.cpp
-        test/TestMain.cpp
-        test/TestMain.hpp
         src/CLI.cpp
         include/CLI.hpp
         src/HuffmanArchiver.cpp
@@ -17,3 +15,23 @@ add_executable(hw_03
         include/Huffman.hpp
         )
 
+include_directories("include/")
+add_executable(test_hw_03
+        src/main.cpp
+        src/CLI.cpp
+        include/CLI.hpp
+        src/HuffmanArchiver.cpp
+        include/HuffmanArchiver.hpp
+        src/Huffman.cpp
+        include/Huffman.hpp
+        test/doctest.h
+        test/TestMain.cpp
+        test/TestMain.hpp
+        test/testCLI.cpp
+        test/testHuffman.cpp
+        test/testHuffmanArchiver.cpp
+        )
+
+#        test/TestBitStream.cpp
+#        test/TestHuffmanArchiver.cpp
+#        test/TestHuffman.cpp
