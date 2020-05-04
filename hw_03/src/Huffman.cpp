@@ -75,7 +75,7 @@ HuffmanTree::HuffmanTree::~HuffmanTree() {
     del_nodes(root_);
 }
 
-HuffmanTree::HuffmanNode *HuffmanTree::get_NodeBySymbol(const uint8_t &symbol) noexcept {
+HuffmanTree::HuffmanNode *HuffmanTree::get_node_by_symbol(const uint8_t &symbol) noexcept {
     return backlinks_symbol_node_[symbol];
 }
 

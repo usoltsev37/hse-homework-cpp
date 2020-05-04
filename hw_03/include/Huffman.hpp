@@ -35,7 +35,7 @@ public:
 
     ~HuffmanTree();
 
-    HuffmanNode *get_NodeBySymbol(const uint8_t &symbol) noexcept;
+    HuffmanNode *get_node_by_symbol(const uint8_t &symbol) noexcept;
 
     bool have_code_symbol(const std::string &code) const noexcept;
 

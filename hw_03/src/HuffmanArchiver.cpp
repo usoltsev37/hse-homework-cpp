@@ -3,8 +3,6 @@
 #include <fstream>
 #include <utility>
 
-#include <iostream>
-
 #include "HuffmanArchiver.hpp"
 
 HuffmanArchiver::HuffmanArchiver() : sz_before_(0), sz_after_(0), sz_buffer_(0) {}
@@ -52,7 +50,7 @@ void HuffmanArchiver::write_codeFile(std::istream &i_stream, std::ostream &o_str
     std::string buffer = "";
     for (auto symbol = std::istreambuf_iterator<char>(i_stream);
          symbol != std::istreambuf_iterator<char>(); symbol++) {
-        std::string code = buffer + tree.get_NodeBySymbol(*symbol)->get_code();
+        std::string code = buffer + tree.get_node_by_symbol(*symbol)->get_code();
         std::size_t new_buffer_length = code.length() % CHAR_BIT;
         buffer = code.substr(code.length() - new_buffer_length, code.length());
         code = code.substr(0, code.length() - new_buffer_length);
