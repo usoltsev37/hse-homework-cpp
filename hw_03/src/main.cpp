@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include "HuffmanArchiver.hpp"
-#include "Huffman.hpp"
 #include "CLI.hpp"
 
 int main(int argc, char *argv[]) {

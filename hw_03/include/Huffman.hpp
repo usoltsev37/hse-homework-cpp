@@ -4,7 +4,6 @@
 #include <memory>
 #include <map>
 #include <queue>
-#include <algorithm>
 #include <string>
 
 class HuffmanTree {

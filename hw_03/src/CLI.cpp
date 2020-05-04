@@ -1,13 +1,5 @@
-//
-// Created by Nikita Usoltsev on 19.04.2020.
-//
-
 #include <cstddef>
-#include <utility>
-#include <algorithm>
 #include "CLI.hpp"
-
-#include <iostream>
 
 CLI::CLI(int argc, char *argv[]) : argc_(argc) {
     if (argc_ != arguments_count_)
