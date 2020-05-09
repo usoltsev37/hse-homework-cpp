@@ -1,9 +1,13 @@
 #include <cstddef>
 #include "CLI.hpp"
+#include <iostream>
 
 CLI::CLI(int argc, char *argv[]) : argc_(argc) {
-    if (argc_ != arguments_count_)
+    if (argc_ != arguments_count_ || (argc == 2 &&
+        (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0))) {
+        help();
         throw ParceException("============Invalid count of arguments============\n");
+    }
 
     all_argv_.assign(argv + 1, argv + argc);
 
@@ -32,6 +36,21 @@ std::string CLI::get_infile() const noexcept {
 
 std::string CLI::get_outfile() const noexcept {
     return output_file_;
+}
+
+void CLI::help() const noexcept {
+    using std::cout;
+    cout << "NAME\n";
+    cout << "    Huffman - create archive or unpack\n\n";
+    cout << "DESCRIPTION\n";
+    cout << "    -c    create archive\n\n";
+    cout << "    -u    unpack archive\n\n";
+    cout << "    -f,   <path>\n";
+    cout << "          input file name\n\n";
+    cout << "    -o,   <path>\n";
+    cout << "          output file name\n\n";
+    cout << "    -h, --help\n";
+    cout << "          display this help and exit\n\n";
 }
 
 ParceException::ParceException(std::string message) : message_(std::move(message)) {}

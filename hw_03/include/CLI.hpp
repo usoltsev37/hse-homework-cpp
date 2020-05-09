@@ -27,6 +27,9 @@ public:
     std::string get_outfile() const noexcept;
 
 private:
+
+    void help() const noexcept;
+
     int argc_;
     std::vector<std::string> all_argv_;
     static constexpr std::size_t arguments_count_ = 6;
